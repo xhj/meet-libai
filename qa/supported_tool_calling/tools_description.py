@@ -105,6 +105,26 @@ GENERATE_SPEECH = {
         }
     }
 }
+CLONE_VOICE = {
+    "type": "function",
+    "function": {
+        "name": "clone_voice",
+        "description": "根据提供克隆或者模仿声音对象的姓名，克隆语音，例如‘请用张三的声音朗读一下这首诗’",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text_to_gen": {
+                    "type": "string",
+                    "description": "语音脚本文字",
+                },
+                "reference_audio": {
+                    "type": "string",
+                    "description": "参考克隆声音对象的姓名或者称呼",
+                }
+            }
+        }
+    }
+}
 GENERATE_VIDEO = {
     "type": "function",
     "function": {
@@ -173,7 +193,7 @@ SEARCH_POETRY_BY_CHINESE = {
     "type": "function",
     "function": {
         "name": "search_poetry_by_chinese",
-        "description": "根据白话文搜索古文",
+        "description": "根据提供的白话文或者现代文，搜索古文",
         "parameters": {
             "type": "object",
             "properties": {
@@ -189,7 +209,7 @@ SEARCH_POETRY_BY_POETRY = {
     "type": "function",
     "function": {
         "name": "search_poetry_by_poetry",
-        "description": "利用古文搜索古文",
+        "description": "根据提供的古文搜索古文",
         "parameters": {
             "type": "object",
             "properties": {

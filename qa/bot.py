@@ -21,7 +21,7 @@ class ChatBot(object, metaclass=Singleton):
     """
 
     __GAME_INSTRUCTION_DISPLAY = {"/飞花令": GameMode.FOG_MODEL}
-    __EXIT_INSTRUCTION = {"/退出游戏", "/游戏结束", "/结束游戏"}
+    __GAME_EXIT_INSTRUCTION = {"/退出游戏", "/游戏结束", "/结束游戏"}
 
     def __init__(self):
         self.question_parser: Parser = (
@@ -32,7 +32,7 @@ class ChatBot(object, metaclass=Singleton):
              message: str,
              history: List[List[str] | None] | None = None,
              ):
-        if message.strip() in self.__EXIT_INSTRUCTION:
+        if message.strip() in self.__GAME_EXIT_INSTRUCTION:
             self.game_mode = None
             yield from PoetryGame().end_game()
 

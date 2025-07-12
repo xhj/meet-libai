@@ -21,10 +21,11 @@ from logger import Logger
 from qa.custom_tool_calling.prompt_templates import HELLO_ANSWER_TEMPLATE
 from qa.custom_tool_calling.question_parser import check_entity
 from qa.supported_tool_calling.tools_description import GET_PERSONAL_PROFILE, GET_RELATION_INFO, GET_HELLO_INFO, \
-    GENERATE_IMAGES, GENERATE_SPEECH, GENERATE_VIDEO, SEARCH_DOCUMENTS, GENERATE_PPT, SEARCH_POETRY_BY_CHINESE, \
-    SEARCH_POETRY_BY_POETRY, GENERATE_DIGITAL_MEN
+    GENERATE_IMAGES, GENERATE_SPEECH, CLONE_VOICE, GENERATE_VIDEO, SEARCH_DOCUMENTS, GENERATE_PPT, \
+    SEARCH_POETRY_BY_CHINESE, SEARCH_POETRY_BY_POETRY, GENERATE_DIGITAL_MEN
 from qa.supported_tool_calling.utils import ChatResponse
 from lang_chain.ppt_generation import generate as _generate_ppt
+from third_api import voice_clone
 
 _dao = GraphDao()
 _logger: Logger = Logger("tool_calling")
@@ -68,6 +69,11 @@ def generate_speech(text: str, language: str = '无', gender: str = '无') -> Tu
     model_name = get_tts_model_name(lang=language, gender=gender)
     audio_file = generate_audio(text, model_name)
 
+    return audio_file, "语音链接"
+
+
+def clone_voice(text_to_gen: str, reference_audio: str) -> Tuple[str, str]:
+    audio_file = voice_clone.generate(reference_audio, text_to_gen)
     return audio_file, "语音链接"
 
 
@@ -120,6 +126,7 @@ tools = [
     GET_HELLO_INFO,
     GENERATE_IMAGES,
     GENERATE_SPEECH,
+    CLONE_VOICE,
     GENERATE_VIDEO,
     GENERATE_DIGITAL_MEN,
     SEARCH_DOCUMENTS,
@@ -134,6 +141,7 @@ tools_mapping: Dict[str, Callable] = {
     "get_hello_info": get_hello_info,
     "generate_images": generate_images,
     "generate_speech": generate_speech,
+    "clone_voice": clone_voice,
     "generate_video": generate_video,
     "generate_digital_men": generate_digital_men,
     "search_documents": search_documents,
